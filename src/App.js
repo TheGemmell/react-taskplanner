@@ -4,27 +4,24 @@ import Task from './components/Task'
 import TaskForm from './components/TaskForm'
 
 function App() {
-  const [ tasks, setTasks ] = useState([])
+  const cachedItems = localStorage.getItem("stored-tasks")
+  const [tasks, setTasks] = useState((cachedItems ? JSON.parse(cachedItems) : []))
 
   useEffect(() => {
-    let cachedItems = localStorage.getItem("stored-tasks")
-    cachedItems = JSON.parse(cachedItems)
-    if (cachedItems.length > 0) {
-      console.log("Found something!")
-      setTasks([...cachedItems])
-    }
-  }, [])
+    localStorage.setItem("stored-tasks", JSON.stringify(tasks))
+  }, [tasks])
 
   console.log(tasks)
-
-  function updateCache() {
-    localStorage.setItem("stored-tasks", JSON.stringify(tasks))
-  }
 
   function createTask(task) {
     console.log(task)
     setTasks([...tasks, task])
-    updateCache()
+  }
+
+  function deleteTask(index) {
+    let newTasks = [...tasks]
+    newTasks.splice(index, 1)
+    setTasks(newTasks)
   }
 
   return (
@@ -32,7 +29,7 @@ function App() {
       <header className="App-header">
         <TaskForm addTask={createTask}/>
         {tasks.map((value, index) => {
-          return <Task data={value} />
+          return <Task key={index} index={index} data={value} remove={deleteTask} />
         })}
       </header>
     </div>

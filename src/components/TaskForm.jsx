@@ -27,15 +27,12 @@ export default function TaskForm({addTask}) {
       <label>Name</label>
       <input id="name" value={formData.name} onChange={handleFormChange} type="text"/>
       <br />
-
       <label>Description</label>
       <input id="desc" value={formData.desc} onChange={handleFormChange} type="text"/>
       <br />
-
       <label>Assigned To:</label>
       <input id="member" value={formData.member} onChange={handleFormChange} type="text"/>
       <br />
-
       <label>Date:</label>
       <input id="date" value={formData.date} onChange={handleFormChange} type="text" />
       <br />
